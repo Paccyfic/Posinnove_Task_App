@@ -1,10 +1,15 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 //import 'app.dart'; // your root widget if any
 //import 'screens/login.dart';
-import 'screens/sign_up.dart';
+import 'screens/onboarding_screen.dart';
+//import 'screens/sign_up.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('settingsBox');
   runApp(const MyApp());
 }
 
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SignUpScreen(), // or your initial route
+      home: const OnboardingScreen(), // or your initial route
     );
   }
 }
