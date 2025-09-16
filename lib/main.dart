@@ -1,10 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-//import 'app.dart'; // your root widget if any
-//import 'screens/login.dart';
-import 'screens/onboarding_screen.dart';
-//import 'screens/sign_up.dart';
+import 'splash_screen.dart'; // Import the splash screen
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +17,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const OnboardingScreen(), // or your initial route
+      title: 'TaskPro',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const SplashScreen(), // Start with splash screen
     );
   }
 }

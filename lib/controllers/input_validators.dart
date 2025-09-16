@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class InputValidator {
-  // Email validation regex pattern
+  // Email pattern
   static final RegExp _emailRegExp = RegExp(
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
 
-  // Password validation regex patterns
+  // Password pattern
   static final RegExp _hasUppercase = RegExp(r'[A-Z]');
   static final RegExp _hasLowercase = RegExp(r'[a-z]');
   static final RegExp _hasDigits = RegExp(r'[0-9]');
   static final RegExp _hasSpecialCharacters = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
 
-  // Name validation regex (letters, spaces, hyphens, apostrophes)
+  // Name validation 
   static final RegExp _nameRegExp = RegExp(r"^[a-zA-Z\s\-']+$");
 
-  /// Validates if a field is not empty
+  //checking if field empty
   static bool validateRequired(String title, String value) {
     if (value.trim().isNotEmpty) {
       return true;
@@ -25,7 +25,7 @@ class InputValidator {
     return false;
   }
 
-  /// Validates email format
+  // email format
   static bool validateEmail(String email) {
     if (email.trim().isEmpty) {
       _showErrorSnackbar("Error", "Email is required");
@@ -40,7 +40,7 @@ class InputValidator {
     return true;
   }
 
-  /// Validates name format
+  //check name format
   static bool validateName(String name) {
     if (name.trim().isEmpty) {
       _showErrorSnackbar("Error", "Name is required");
@@ -65,7 +65,7 @@ class InputValidator {
     return true;
   }
 
-  /// Validates password strength
+  //password strength
   static bool validatePassword(String password) {
     if (password.trim().isEmpty) {
       _showErrorSnackbar("Error", "Password is required");
@@ -102,7 +102,7 @@ class InputValidator {
       return false;
     }
 
-    // Check for common weak passwords
+    // Check weak passwords
     List<String> commonPasswords = [
       'password', '123456', '123456789', 'qwerty', 'abc123',
       'password123', '111111', '123123', 'admin', 'letmein'
@@ -116,7 +116,7 @@ class InputValidator {
     return true;
   }
 
-  /// Validates password confirmation
+  // password confirmation
   static bool validatePasswordConfirmation(String password, String confirmPassword) {
     if (confirmPassword.trim().isEmpty) {
       _showErrorSnackbar("Error", "Password confirmation is required");
@@ -131,30 +131,7 @@ class InputValidator {
     return true;
   }
 
-  /// Validates phone number (basic validation)
-  static bool validatePhone(String phone) {
-    if (phone.trim().isEmpty) {
-      _showErrorSnackbar("Error", "Phone number is required");
-      return false;
-    }
-
-    // Remove all non-digit characters for validation
-    String cleanPhone = phone.replaceAll(RegExp(r'[^\d]'), '');
-    
-    if (cleanPhone.length < 10) {
-      _showErrorSnackbar("Error", "Phone number must be at least 10 digits");
-      return false;
-    }
-
-    if (cleanPhone.length > 15) {
-      _showErrorSnackbar("Error", "Phone number must be less than 15 digits");
-      return false;
-    }
-
-    return true;
-  }
-
-  /// Gets password strength score (0-4)
+  //password strength score range at (0-4)
   static int getPasswordStrength(String password) {
     int score = 0;
     
@@ -164,13 +141,13 @@ class InputValidator {
     if (_hasDigits.hasMatch(password)) score++;
     if (_hasSpecialCharacters.hasMatch(password)) score++;
     
-    // Bonus for length
+    
     if (password.length >= 12) score++;
     
     return score > 4 ? 4 : score;
   }
 
-  /// Gets password strength text
+  //password strength text
   static String getPasswordStrengthText(int strength) {
     switch (strength) {
       case 0:
@@ -187,7 +164,7 @@ class InputValidator {
     }
   }
 
-  /// Gets password strength color
+  //strength color
   static Color getPasswordStrengthColor(int strength) {
     switch (strength) {
       case 0:
@@ -204,14 +181,14 @@ class InputValidator {
     }
   }
 
-  /// Validates complete signup form
+  //for complete signup form
   static bool validateSignupForm({
     required String name,
     required String email,
     required String password,
     required String confirmPassword,
   }) {
-    // Validate in order of importance
+    
     if (!validateName(name)) return false;
     if (!validateEmail(email)) return false;
     if (!validatePassword(password)) return false;
@@ -220,7 +197,7 @@ class InputValidator {
     return true;
   }
 
-  /// Validates complete login form
+  //for complete login form
   static bool validateLoginForm({
     required String email,
     required String password,
@@ -228,17 +205,16 @@ class InputValidator {
     if (!validateRequired("Email/Username", email)) return false;
     if (!validateRequired("Password", password)) return false;
     
-    // For login, we might want lighter email validation
-    // since user might be using username instead of email
+    
     return true;
   }
 
-  /// Validates forgot password form
+  // forgot password form
   static bool validateForgotPasswordForm({required String email}) {
     return validateEmail(email);
   }
 
-  /// Private method to show error snackbar
+  //show error snackbar
   static void _showErrorSnackbar(String title, String message) {
     Get.snackbar(
       title,
@@ -256,7 +232,7 @@ class InputValidator {
     );
   }
 
-  /// Shows success snackbar
+  //Show success snackbar
   static void showSuccessSnackbar(String title, String message) {
     Get.snackbar(
       title,
