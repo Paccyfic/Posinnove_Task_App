@@ -37,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor:  const Color.fromARGB(255, 18, 20, 22),
       body: SafeArea(
         child: Column(
           children: [
@@ -47,11 +47,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
                   onTap: () async {
-                    var box = await Hive.openBox('settingsBox');
+                    final box = Hive.isBoxOpen('settingsBox')
+                        ? Hive.box('settingsBox')
+                        : await Hive.openBox('settingsBox');
                     await box.put('onboardingComplete', true);
                     if (!mounted) return;
-                    Navigator.pushReplacement(
-                      context,
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => const SignUpScreen()),
                     );
                   },
@@ -108,11 +109,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       if (_currentPage == _pages.length - 1) {
-                        Hive.box('settingsBox').put('onboardingComplete', true);
-                        Navigator.pushReplacement(
-                          context,
+                        final box = Hive.isBoxOpen('settingsBox')
+                            ? Hive.box('settingsBox')
+                            : await Hive.openBox('settingsBox');
+                        await box.put('onboardingComplete', true);
+                        if (!mounted) return;
+                        Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => const SignUpScreen()),
                         );
                       } else {
