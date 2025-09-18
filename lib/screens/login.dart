@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../controllers/input_validators.dart';
 import '../screens/sign_up.dart';
+import 'dashboard_screen.dart';
+import '../controllers/auth_controller.dart';
 import '../utils/mytheme.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool isPasswordVisible = false;
   bool rememberMe = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final isLoggedIn = await AuthService.isLoggedIn();
+    if (isLoggedIn) {
+      Get.offAll(() => const DashboardScreen());
+    }
+  }
 
   @override
   void dispose() {
@@ -46,16 +61,32 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (isValid) {
-        // Proceed with login logic
-        // await AuthController.instance.login(
-        //   emailController.text.trim(),
-        //   passwordController.text.trim()
-        // );
-        InputValidator.showSuccessSnackbar(
-          "Success",
-          "Login successful!"
+        // Call the backend login API
+        final result = await AuthService.login(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
         );
+
+        if (result['success']) {
+          InputValidator.showSuccessSnackbar(
+            "Success",
+            result['message'] ?? "Login successful!"
+          );
+          
+          // Navigate to dashboard
+          Get.offAll(() => const DashboardScreen());
+        } else {
+          InputValidator.showErrorSnackbar(
+            "Error",
+            result['message'] ?? "Login failed"
+          );
+        }
       }
+    } catch (e) {
+      InputValidator.showErrorSnackbar(
+        "Error",
+        "An unexpected error occurred: ${e.toString()}"
+      );
     } finally {
       setState(() {
         isLoading = false;
@@ -114,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
           
           if (isValid) {
-            // AuthController.instance.forgorPassword(forgotEmailController.text.trim());
+            // TODO: Implement forgot password API call
             InputValidator.showSuccessSnackbar(
               "Success",
               "Password reset link sent to your email!"
@@ -369,7 +400,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Get.to(const SignUpScreen());
+                          Get.to(() => const SignUpScreen());
                         },
                     ),
                     const TextSpan(
