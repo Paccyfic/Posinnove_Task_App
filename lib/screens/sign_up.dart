@@ -2,9 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:posinnove_task_app/controllers/input_validators.dart';
-import 'package:posinnove_task_app/utils/mytheme.dart';
-import 'package:posinnove_task_app/screens/login.dart';
+import '../controllers/input_validators.dart';
+import '../utils/mytheme.dart';
+import '../screens/login.dart';
+import 'dashboard_screen.dart';
+import '../controllers/auth_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -63,13 +65,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
 
       if (isValid) {
-        // Proceed with signup logic
-        // AuthController.instance.signUp(...);
-        InputValidator.showSuccessSnackbar(
-          "Success",
-          "Account created successfully!"
+        // Call the backend registration API
+        final result = await AuthService.register(
+          username: nameController.text.trim(),
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
         );
+
+        if (result['success']) {
+          InputValidator.showSuccessSnackbar(
+            "Success",
+            result['message'] ?? "Account created successfully!"
+          );
+          
+          // Navigate to dashboard (user is automatically logged in after registration)
+          Get.offAll(() => const DashboardScreen());
+        } else {
+          InputValidator.showErrorSnackbar(
+            "Error",
+            result['message'] ?? "Registration failed"
+          );
+        }
       }
+    } catch (e) {
+      InputValidator.showErrorSnackbar(
+        "Error",
+        "An unexpected error occurred: ${e.toString()}"
+      );
     } finally {
       setState(() {
         isLoading = false;
@@ -245,6 +267,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: cnfPassController,
                         obscureText: !isConfirmPasswordVisible,
                         textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (_) => _handleSignup(),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -342,7 +365,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Get.to(const LoginScreen());
+                          Get.to(() => const LoginScreen());
                         },
                     ),
                     const TextSpan(

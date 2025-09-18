@@ -249,4 +249,9 @@ class InputValidator {
       animationDuration: const Duration(milliseconds: 300),
     );
   }
+
+  //Show error snackbar (public)
+  static void showErrorSnackbar(String title, String message) {
+    _showErrorSnackbar(title, message);
+  }
 }
