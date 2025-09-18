@@ -45,7 +45,7 @@ Before running this application, make sure you have the following installed:
 
 ### Login Screen
 <div align="center">
-  <img src="assets/images/login_screenshot.png" alt="Login Screen" width="300"/>
+  <img src="assets/images/Login_screenshot.png" alt="Login Screen" width="300"/>
 </div>
 
 *Modern login interface with email validation and password visibility toggle*
@@ -66,8 +66,8 @@ Before running this application, make sure you have the following installed:
 
 ### App Flow
 <div align="center">
-  <img src="assets/images/login_screenshot.png" alt="Login" width="250"/>
   <img src="assets/images/signup_screenshot.png" alt="Signup" width="250"/>
+  <img src="assets/images/Login_screenshot.png" alt="Login" width="250"/>
   <img src="assets/images/dashboard_screenshot.png" alt="Dashboard" width="250"/>
 </div>
 
