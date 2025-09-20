@@ -6,6 +6,7 @@ import '../controllers/input_validators.dart';
 import '../utils/mytheme.dart';
 import '../screens/login.dart';
 import 'dashboard_screen.dart';
+import 'home_screen.dart';
 import '../controllers/auth_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
           
           // Navigate to dashboard (user is automatically logged in after registration)
-          Get.offAll(() => const DashboardScreen());
+          Get.offAll(() => HomeScreen());
         } else {
           InputValidator.showErrorSnackbar(
             "Error",

@@ -7,6 +7,7 @@ import '../screens/sign_up.dart';
 import 'dashboard_screen.dart';
 import '../controllers/auth_controller.dart';
 import '../utils/mytheme.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,13 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus();
+    //_checkLoginStatus();
   }
 
   Future<void> _checkLoginStatus() async {
     final isLoggedIn = await AuthService.isLoggedIn();
     if (isLoggedIn) {
-      Get.offAll(() => const DashboardScreen());
+      Get.offAll(() =>  HomeScreen());
     }
   }
 
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
           
           // Navigate to dashboard
-          Get.offAll(() => const DashboardScreen());
+          Get.offAll(() => HomeScreen());
         } else {
           InputValidator.showErrorSnackbar(
             "Error",
