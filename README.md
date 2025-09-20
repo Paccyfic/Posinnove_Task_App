@@ -43,29 +43,9 @@ Before running this application, make sure you have the following installed:
 
 ## 📱 Screenshots
 
-### Login Screen
-<div align="center">
-  <img src="assets/images/Login_screenshot.png" alt="Login Screen" width="300"/>
-</div>
-
-*Modern login interface with email validation and password visibility toggle*
-
-### Registration Screen
-<div align="center">
-  <img src="assets/images/signup_screenshot.png" alt="Registration Screen" width="300"/>
-</div>
-
-*User-friendly registration form with password strength indicator*
-
-### Dashboard Screen
-<div align="center">
-  <img src="assets/images/dashboard_screenshot.png" alt="Dashboard Screen" width="300"/>
-</div>
-
-*Protected dashboard showing user information and welcome message*
-
 ### App Flow
 <div align="center">
+  <img src="assets/images/splash_screenshot.png" alt="Splash" width="250"/>
   <img src="assets/images/signup_screenshot.png" alt="Signup" width="250"/>
   <img src="assets/images/Login_screenshot.png" alt="Login" width="250"/>
   <img src="assets/images/dashboard_screenshot.png" alt="Dashboard" width="250"/>
